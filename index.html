@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>موكا | منصة الشحن</title>
+  <meta name="description" content="نسخة موكا - شحن احترافي، عروض قوية، إشعارات حقيقية بنسبة 99 بالمئة، وتواصل مباشر." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#06070d;
+      --bg2:#0d111c;
+      --panel:rgba(255,255,255,.06);
+      --panel-2:rgba(255,255,255,.09);
+      --line:rgba(255,255,255,.12);
+      --text:#f5f7fb;
+      --muted:#b7bfd3;
+      --gold:#ffcc66;
+      --gold2:#f5a623;
+      --cyan:#44d8ff;
+      --green:#25d366;
+      --purple:#8a5cff;
+      --shadow:0 18px 60px rgba(0,0,0,.35);
+      --radius:24px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Cairo",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(138,92,255,.15), transparent 24%),
+        radial-gradient(circle at top left, rgba(68,216,255,.12), transparent 22%),
+        radial-gradient(circle at bottom center, rgba(245,166,35,.10), transparent 28%),
+        linear-gradient(135deg, var(--bg), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .container{
+      width:min(1180px, calc(100% - 30px));
+      margin:auto;
+    }
+
+    .glow{
+      position:fixed;
+      width:320px;
+      height:320px;
+      border-radius:50%;
+      filter:blur(90px);
+      opacity:.18;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .glow.one{
+      background:#44d8ff;
+      top:-80px;
+      left:-80px;
+    }
+
+    .glow.two{
+      background:#8a5cff;
+      right:-100px;
+      top:180px;
+    }
+
+    .glow.three{
+      background:#f5a623;
+      bottom:-100px;
+      left:30%;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(18px);
+      background:rgba(4,8,16,.55);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:16px 0;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .brand-icon{
+      width:52px;
+      height:52px;
+      border-radius:18px;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      display:grid;
+      place-items:center;
+      color:#111;
+      font-size:24px;
+      font-weight:900;
+      box-shadow:0 0 30px rgba(245,166,35,.28);
+    }
+
+    .brand-text h1{
+      font-size:22px;
+      font-weight:900;
+      line-height:1.1;
+    }
+
+    .brand-text span{
+      display:block;
+      color:var(--muted);
+      font-size:13px;
+      margin-top:3px;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .nav-links a{
+      padding:10px 16px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      transition:.25s ease;
+    }
+
+    .nav-links a:hover{
+      color:#fff;
+      transform:translateY(-2px);
+      border-color:rgba(255,204,102,.45);
+    }
+
+    .hero{
+      padding:78px 0 28px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:22px;
+    }
+
+    .glass{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      backdrop-filter:blur(16px);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card{
+      padding:34px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      inset:auto auto -90px -90px;
+      width:260px;
+      height:260px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(255,204,102,.16), transparent 68%);
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,204,102,.20);
+      background:rgba(255,204,102,.08);
+      color:var(--gold);
+      font-size:13px;
+      margin-bottom:16px;
+    }
+
+    .hero-card h2{
+      font-size:clamp(34px, 6vw, 62px);
+      line-height:1.08;
+      margin-bottom:14px;
+      font-weight:900;
+    }
+
+    .hero-card h2 .accent{
+      background:linear-gradient(135deg, #fff, var(--gold), var(--cyan));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+
+    .hero-card p{
+      color:var(--muted);
+      line-height:2;
+      font-size:17px;
+      max-width:740px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:24px;
+    }
+
+    .btn{
+      min-height:54px;
+      padding:0 22px;
+      border-radius:18px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-weight:800;
+      transition:.25s ease;
+      border:1px solid transparent;
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .btn-primary{
+      color:#111;
+      background:linear-gradient(135deg, var(--gold), var(--gold2));
+      box-shadow:0 0 30px rgba(245,166,35,.20);
+    }
+
+    .btn-dark{
+      background:rgba(255,255,255,.05);
+      border-color:var(--line);
+      color:#fff;
+    }
+
+    .side{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      justify-content:space-between;
+    }
+
+    .side-box{
+      padding:20px;
+      border-radius:22px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .side-box .label{
+      color:var(--gold);
+      font-size:13px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .side-box strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:8px;
+    }
+
+    .side-box p{
+      color:var(--muted);
+      line-height:1.85;
+      font-size:14px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .stat{
+      padding:18px 14px;
+      border-radius:18px;
+      text-align:center;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .stat b{
+      display:block;
+      font-size:24px;
+      color:var(--gold);
+      margin-bottom:4px;
+    }
+
+    .stat span{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .section{
+      padding:28px 0;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:18px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+
+    .section-head h3{
+      font-size:31px;
+      font-weight:900;
+    }
+
+    .section-head p{
+      color:var(--muted);
+      max-width:740px;
+      line-height:1.9;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:18px;
+    }
+
+    .feature{
+      padding:24px;
+      border-radius:24px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .feature:hover{
+      transform:translateY(-4px);
+      border-color:rgba(255,204,102,.28);
+      box-shadow:0 0 30px rgba(255,204,102,.08);
+    }
+
+    .feature::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(255,204,102,.10), transparent 45%);
+      opacity:.7;
+      pointer-events:none;
+    }
+
+    .feature-icon{
+      width:58px;
+      height:58px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      margin-bottom:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.06);
+      font-size:24px;
+    }
+
+    .feature h4{
+      font-size:20px;
+      margin-bottom:8px;
+      font-weight:900;
+    }
+
+    .feature p{
+      color:var(--muted);
+      line-height:1.85;
+      font-size:14px;
+    }
+
+    .offers-grid{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:16px;
+    }
+
+    .offer-card{
+      padding:22px 18px;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid var(--line);
+      text-align:center;
+      transition:.25s ease;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .offer-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      left:0;
+      height:3px;
+      background:linear-gradient(90deg, var(--cyan), var(--gold), var(--purple));
+    }
+
+    .offer-card:hover{
+      transform:translateY(-5px);
+      border-color:rgba(255,204,102,.34);
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .offer-card h4{
+      font-size:20px;
+      color:var(--gold);
+      margin-bottom:10px;
+      font-weight:900;
+    }
+
+    .offer-card .amount{
+      font-size:17px;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .offer-card .price{
+      color:#fff;
+      font-size:15px;
+      line-height:1.9;
+    }
+
+    .extras{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+    }
+
+    .extra-card{
+      padding:22px;
+      border-radius:22px;
+      background:var(--panel);
+      border:1px solid var(--line);
+    }
+
+    .extra-card strong{
+      display:block;
+      color:var(--gold);
+      font-size:18px;
+      margin-bottom:8px;
+    }
+
+    .extra-card p{
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    .contact-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:18px;
+    }
+
+    .contact-card{
+      padding:24px;
+      border-radius:24px;
+      background:var(--panel);
+      border:1px solid var(--line);
+    }
+
+    .contact-top{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:14px;
+    }
+
+    .contact-icon{
+      width:60px;
+      height:60px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      flex:none;
+    }
+
+    .contact-icon svg{
+      width:28px;
+      height:28px;
+    }
+
+    .wa-bg{
+      background:rgba(37,211,102,.12);
+      color:var(--green);
+      border:1px solid rgba(37,211,102,.24);
+    }
+
+    .tg-bg{
+      background:rgba(68,216,255,.12);
+      color:var(--cyan);
+      border:1px solid rgba(68,216,255,.20);
+    }
+
+    .contact-card h4{
+      font-size:22px;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .contact-card p{
+      color:var(--muted);
+      line-height:1.9;
+      margin-bottom:16px;
+    }
+
+    .contact-buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .btn-wa{
+      background:linear-gradient(135deg, #1db954, var(--green));
+      color:#fff;
+    }
+
+    .btn-tg{
+      background:linear-gradient(135deg, #1081c7, var(--cyan));
+      color:#fff;
+    }
+
+    .btn-soft{
+      background:rgba(255,255,255,.05);
+      border:1px solid var(--line);
+      color:#fff;
+    }
+
+    .note{
+      margin-top:22px;
+      padding:22px;
+      border-radius:22px;
+      background:linear-gradient(135deg, rgba(255,94,94,.10), rgba(255,255,255,.03));
+      border:1px solid rgba(255,94,94,.18);
+    }
+
+    .note strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:18px;
+    }
+
+    .note span{
+      color:#ffe4e4;
+      line-height:1.9;
+      display:block;
+    }
+
+    .footer{
+      padding:34px 0 46px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .credit{
+      margin-top:8px;
+      font-size:12px;
+      color:#8f96aa;
+    }
+
+    .floating-wa{
+      position:fixed;
+      left:18px;
+      bottom:18px;
+      width:62px;
+      height:62px;
+      border-radius:50%;
+      background:linear-gradient(135deg, #1db954, var(--green));
+      display:grid;
+      place-items:center;
+      box-shadow:0 10px 30px rgba(37,211,102,.35);
+      z-index:120;
+    }
+
+    .floating-wa svg{
+      width:30px;
+      height:30px;
+      fill:#fff;
+    }
+
+    @media (max-width: 1100px){
+      .offers-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 950px){
+      .hero-grid,
+      .features,
+      .contact-grid,
+      .extras{
+        grid-template-columns:1fr;
+      }
+
+      .stats{
+        grid-template-columns:1fr 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 760px){
+      .nav{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .offers-grid{
+        grid-template-columns:repeat(2, 1fr);
+      }
+
+      .hero{
+        padding-top:44px;
+      }
+
+      .hero-card,
+      .side,
+      .feature,
+      .contact-card,
+      .extra-card{
+        padding:20px;
+      }
+
+      .stats{
+        grid-template-columns:1fr;
+      }
+
+      .btn{
+        width:100%;
+      }
+    }
+
+    @media (max-width: 520px){
+      .offers-grid{
+        grid-template-columns:1fr;
+      }
+
+      .section-head h3{
+        font-size:25px;
+      }
+
+      .hero-card p{
+        font-size:15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+  <div class="glow three"></div>
+
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-icon">M</div>
+        <div class="brand-text">
+          <h1>موكا</h1>
+          <span>نسخة احترافية للشحن</span>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#features">المميزات</a>
+        <a href="#offers">عروض الشحن</a>
+        <a href="#contact">التواصل</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="glass hero-card">
+          <div class="eyebrow">نسخة قوية • تصميم أفخم • حضور احترافي</div>
+          <h2>
+            منصة <span class="accent">موكا</span><br>
+            للشحن والخدمات
+          </h2>
+          <p>
+            نسخة موكا مصممة بشكل أقوى وأفخم، للناس الدايرة سرعة، ثبات، ومظهر احترافي حقيقي.
+            واجهة مميزة، عروض مناسبة للعملاء، وإشعارات حقيقية بنسبة 99 بالمئة مع سهولة كاملة في الوصول والتواصل.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#offers">عرض الباقات</a>
+            <a class="btn btn-dark" href="#contact">تواصل مباشر</a>
+          </div>
+
+          <div class="stats">
+            <div class="stat">
+              <b>99%</b>
+              <span>إشعارات حقيقية</span>
+            </div>
+            <div class="stat">
+              <b>10</b>
+              <span>عروض شحن</span>
+            </div>
+            <div class="stat">
+              <b>ثابت</b>
+              <span>لا يتوقف أبدًا</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="glass side">
+          <div class="side-box">
+            <div class="label">قوة النسخة</div>
+            <strong>موكا</strong>
+            <p>
+              نسخة مخصصة للناس الدايرة شكل قوي وتجربة نظيفة ومريحة، بمظهر أفخم من النسخ السابقة وبلمسة حديثة.
+            </p>
+          </div>
+
+          <div class="side-box">
+            <div class="label">أهم نقطة</div>
+            <strong>لا تتوقف أبدًا</strong>
+            <p>
+              النسخة مبنية بفكرة الثبات والاستمرارية، مع تحسينات تعطي إحساس قوي في الاستخدام اليومي.
+            </p>
+          </div>
+
+          <div class="side-box">
+            <div class="label">تواصل مباشر</div>
+            <strong>واتساب وتيليجرام</strong>
+            <p>
+              الوصول للخدمة سريع جدًا عبر الروابط الرسمية، مع قناة تيليجرام ورقم واتساب جاهزين للتواصل الفوري.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h3>مميزات النسخة</h3>
+          </div>
+          <p>
+            نسخة موكا مركزة على الجودة والثبات والمظهر القوي، عشان تقدم تجربة أفضل وأفخم بصورة واضحة من أول نظرة.
+          </p>
+        </div>
+
+        <div class="features">
+          <article class="feature">
+            <div class="feature-icon">⚡</div>
+            <h4>لا تتوقف أبدًا</h4>
+            <p>ثبات واستمرار في الأداء، مع تجربة أكثر استقرارًا للمستخدم بشكل يومي.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">🔔</div>
+            <h4>إشعارات حقيقية بنسبة 99%</h4>
+            <p>شكل الإشعارات قريب جدًا من الحقيقي، بطريقة تعطي مظهر أنيق واحترافي داخل النسخة.</p>
+          </article>
+
+          <article class="feature">
+            <div class="feature-icon">💰</div>
+            <h4>عروض شحن مناسبة للعملاء</h4>
+            <p>باقات متعددة وموزعة بطريقة مريحة عشان الزول يلقى العرض المناسب ليه بسرعة.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="offers">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h3>عروض الشحن</h3>
+          </div>
+          <p>
+            10 عروض شحن مرتبة من 100 ألف إلى 1 مليار، مع خدمات إضافية مثل تغيير كلمة السر وفتح الحسابات.
+          </p>
+        </div>
+
+        <div class="offers-grid">
+          <div class="offer-card">
+            <h4>العرض 1</h4>
+            <div class="amount">100 ألف</div>
+            <div class="price">السعر: 10 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 2</h4>
+            <div class="amount">200 ألف</div>
+            <div class="price">السعر: 20 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 3</h4>
+            <div class="amount">300 ألف</div>
+            <div class="price">السعر: 30 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 4</h4>
+            <div class="amount">400 ألف</div>
+            <div class="price">السعر: 40 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 5</h4>
+            <div class="amount">500 ألف</div>
+            <div class="price">السعر: 50 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 6</h4>
+            <div class="amount">600 ألف</div>
+            <div class="price">السعر: 60 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 7</h4>
+            <div class="amount">700 ألف</div>
+            <div class="price">السعر: 70 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 8</h4>
+            <div class="amount">800 ألف</div>
+            <div class="price">السعر: 80 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 9</h4>
+            <div class="amount">900 ألف</div>
+            <div class="price">السعر: 90 ألف</div>
+          </div>
+
+          <div class="offer-card">
+            <h4>العرض 10</h4>
+            <div class="amount">1 مليار</div>
+            <div class="price">السعر: 100 ألف</div>
+          </div>
+        </div>
+
+        <div class="extras">
+          <div class="extra-card">
+            <strong>تغيير كلمة السر</strong>
+            <p>متوفر تنفيذ خدمة تغيير كلمة السر بصورة سريعة وآمنة حسب الطلب.</p>
+          </div>
+
+          <div class="extra-card">
+            <strong>فتح حسابات</strong>
+            <p>متوفر كذلك فتح حسابات جديدة بشكل مرتب مع متابعة وتسهيل كامل للخدمة.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h3>التواصل الرسمي</h3>
+          </div>
+          <p>
+            تواصل معنا عبر واتساب أو تابع القناة الرسمية على تيليجرام للوصول السريع والمباشر.
+          </p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-top">
+              <div class="contact-icon wa-bg">
+                <svg viewBox="0 0 24 24">
+                  <path d="M20.52 3.48A11.78 11.78 0 0 0 12.07 0C5.6 0 .33 5.27.33 11.74c0 2.06.54 4.08 1.57 5.85L0 24l6.58-1.72a11.8 11.8 0 0 0 5.49 1.4h.01c6.47 0 11.74-5.27 11.74-11.74 0-3.14-1.22-6.08-3.3-8.46zm-8.45 18.2h-.01a9.82 9.82 0 0 1-5.01-1.37l-.36-.21-3.91 1.02 1.04-3.81-.23-.39a9.74 9.74 0 0 1-1.5-5.18c0-5.4 4.4-9.8 9.81-9.8 2.61 0 5.06 1.01 6.91 2.87a9.69 9.69 0 0 1 2.88 6.93c0 5.41-4.4 9.81-9.81 9.81z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div>
+                <h4>واتساب</h4>
+                <p>تواصل مباشر عبر الرقم الرسمي المعتمد للحصول على الخدمة بسرعة.</p>
+              </div>
+            </div>
+
+            <div class="contact-buttons">
+              <a class="btn btn-wa" href="https://wa.me/249115006850" target="_blank">تواصل واتساب</a>
+              <a class="btn btn-soft" href="tel:+249115006850">+249115006850</a>
+            </div>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-top">
+              <div class="contact-icon tg-bg">
+                <svg viewBox="0 0 24 24">
+                  <path d="M21.94 4.66a1.5 1.5 0 0 0-1.69-.24L2.8 12.14a1.5 1.5 0 0 0 .1 2.77l4.39 1.57 1.57 4.39a1.5 1.5 0 0 0 2.77.1l7.72-17.45a1.5 1.5 0 0 0-.41-1.86z" fill="currentColor"/>
+                </svg>
+              </div>
+              <div>
+                <h4>تيليجرام</h4>
+                <p>القناة الرسمية لنسخة موكا. تم استخدام المعرف التالي بافتراض مؤقت: @Ahmed09063</p>
+              </div>
+            </div>
+
+            <div class="contact-buttons">
+              <a class="btn btn-tg" href="https://t.me/Ahmed09063" target="_blank">قناة تيليجرام</a>
+              <a class="btn btn-soft" href="https://t.me/Ahmed09063" target="_blank">@Ahmed09063</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>ملاحظة</strong>
+          <span>
+            لو داير تغيّر اسم المستخدم في تيليجرام أو تضيف تنبيه رسمي خاص بالنسخة، بدّل النص والرابط في هذا القسم مباشرة.
+          </span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer container">
+    <div>موكا — منصة الشحن والخدمات</div>
+    <div class="credit">صُمّم بفخر بواسطة بيبو</div>
+  </footer>
+
+  <a class="floating-wa" href="https://wa.me/249115006850" target="_blank" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24">
+      <path d="M20.52 3.48A11.78 11.78 0 0 0 12.07 0C5.6 0 .33 5.27.33 11.74c0 2.06.54 4.08 1.57 5.85L0 24l6.58-1.72a11.8 11.8 0 0 0 5.49 1.4h.01c6.47 0 11.74-5.27 11.74-11.74 0-3.14-1.22-6.08-3.3-8.46zm-8.45 18.2h-.01a9.82 9.82 0 0 1-5.01-1.37l-.36-.21-3.91 1.02 1.04-3.81-.23-.39a9.74 9.74 0 0 1-1.5-5.18c0-5.4 4.4-9.8 9.81-9.8 2.61 0 5.06 1.01 6.91 2.87a9.69 9.69 0 0 1 2.88 6.93c0 5.41-4.4 9.81-9.81 9.81z"/>
+    </svg>
+  </a>
+</body>
+  </html>
